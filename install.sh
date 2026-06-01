@@ -6,7 +6,7 @@ INSTALL_DIR="/opt/${APP_NAME}"
 CONFIG_DIR="/etc/${APP_NAME}"
 DATA_DIR="/var/lib/${APP_NAME}"
 SERVICE_FILE="/etc/systemd/system/${APP_NAME}.service"
-DEFAULT_DOWNLOAD_BASE=""
+DEFAULT_DOWNLOAD_BASE="https://github.com/LimoYuan/mkw_qr_relay_server/releases/download/v1/mkw-qr-relay-linux-amd64"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 red(){ echo -e "\033[31m$*\033[0m"; }
