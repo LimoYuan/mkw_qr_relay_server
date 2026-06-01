@@ -7,7 +7,7 @@ CONFIG_DIR="/etc/${APP_NAME}"
 DATA_DIR="/var/lib/${APP_NAME}"
 SERVICE_FILE="/etc/systemd/system/${APP_NAME}.service"
 DEFAULT_DOWNLOAD_BASE="https://github.com/LimoYuan/mkw_qr_relay_server/releases/download/v1/mkw-qr-relay-linux-amd64"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" >/dev/null 2>&1 && pwd || pwd)"
 
 red(){ echo -e "\033[31m$*\033[0m"; }
 green(){ echo -e "\033[32m$*\033[0m"; }
@@ -25,11 +25,11 @@ ask(){
   local default="${2:-}"
   local value
   if [[ -n "$default" ]]; then
-    read -r -p "${prompt} [${default}]: " value || true
+    read -r -p "${prompt} [${default}]: " value </dev/tty || true
     echo "${value:-$default}"
   else
     while true; do
-      read -r -p "${prompt}: " value || true
+      read -r -p "${prompt}: " value </dev/tty || true
       if [[ -n "$value" ]]; then echo "$value"; return; fi
       yellow "该项不能为空"
     done
@@ -235,7 +235,7 @@ echo "扫码中转地址：${PUBLIC_URL}"
 echo "监听地址：${LISTEN_ADDR}:${LISTEN_PORT}"
 echo "二维码有效期：${SESSION_EXPIRE_SECONDS} 秒"
 echo
-read -r -p "确认开始安装？[Y/n]: " confirm || true
+read -r -p "确认开始安装？[Y/n]: " confirm </dev/tty || true
 confirm="${confirm:-Y}"
 if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
   yellow "已取消安装"
